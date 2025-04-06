@@ -1,39 +1,39 @@
- # Сеть Docker контейнеров с FastAPI и PostgreSQL
+# Docker Network with FastAPI and PostgreSQL
 
-Этот проект демонстрирует настройку сети из двух Docker контейнеров:
-- Контейнер с базой данных PostgreSQL
-- Контейнер с веб-приложением на FastAPI, который подключается к базе данных
+This project demonstrates the setup of a network with two Docker containers:
+- A PostgreSQL database container
+- A FastAPI web application container that connects to the database
 
-## Запуск проекта
+## Running the Project
 
-1. Клонируйте репозиторий
-2. Запустите контейнеры:
+1. Clone the repository
+2. Start the containers:
 
 ```bash
 docker-compose up --build
 ```
 
-3. Откройте в браузере: http://localhost:8000
+3. Open in your browser: http://localhost:8000
 
 ## API Endpoints
 
-- `GET /`: Проверка работоспособности
-- `POST /items/`: Создание нового элемента
-- `GET /items/`: Получение всех элементов
-- `GET /items/{item_id}`: Получение элемента по ID
+- `GET /`: Health check
+- `POST /items/`: Create a new item
+- `GET /items/`: Get all items
+- `GET /items/{item_id}`: Get item by ID
 
-## Пример использования
+## Usage Examples
 
-Создание элемента:
+Creating an item:
 ```bash
-curl -X POST "http://localhost:8000/items/" -H "Content-Type: application/json" -d '{"name": "Тестовый элемент", "description": "Описание элемента"}'
+curl -X POST "http://localhost:8000/items/" -H "Content-Type: application/json" -d '{"name": "Test item", "description": "Item description"}'
 ```
 
-Получение всех элементов:
+Getting all items:
 ```bash
 curl "http://localhost:8000/items/"
 ```
 
-## Важно
+## Important
 
-Данные в базе данных сохраняются между перезапусками контейнеров благодаря использованию именованного тома `postgres_data`.
+The data in the database is preserved between container restarts thanks to the use of the named volume `postgres_data`.

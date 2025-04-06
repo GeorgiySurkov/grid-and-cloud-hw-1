@@ -1,11 +1,10 @@
 import os
 from typing import List
+from contextlib import asynccontextmanager
 
 import asyncpg
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-
-app = FastAPI()
 
 DATABASE_URL = os.environ.get(
     "DATABASE_URL", "postgresql://postgres:postgres@db:5432/postgres"
@@ -30,10 +29,15 @@ async def init_db():
     await conn.close()
 
 
-@app.on_event("startup")
-async def startup():
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup: initialize database
     await init_db()
+    yield
+    # Shutdown: could add cleanup code here if needed
 
+
+app = FastAPI(lifespan=lifespan)
 
 @app.get("/")
 async def root():
